@@ -1,0 +1,10 @@
+let sb,sess;
+if(!SUPABASE_URL.startsWith("http")||SUPABASE_KEY.startsWith("PASTE_")) document.getElementById("msg").textContent="আগে config.js-এ Supabase URL ও Publishable key দিন।";
+else sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+async function login(){if(!sb)return;const {data,error}=await sb.auth.signInWithPassword({email:email.value.trim(),password:password.value});if(error){msg.textContent=error.message;return}sess=data.session;login.hidden=true;panel.hidden=false;load();}
+async function logout(){await sb.auth.signOut();location.reload()}
+async function load(){const a=await sb.from("apps").select("*").order("created_at",{ascending:false});list.innerHTML=(a.data||[]).map(x=>`<div class="item"><span>${x.icon||"📦"} <b>${x.title}</b></span><button class="danger" onclick="delApp('${x.id}')">Delete</button></div>`).join("");const p=await sb.from("prompts").select("*").order("created_at",{ascending:false});plist.innerHTML=(p.data||[]).map(x=>`<div class="item"><span>${x.emoji||"🤖"} <b>${x.title}</b></span><button class="danger" onclick="delPrompt('${x.id}')">Delete</button></div>`).join("")}
+async function addApp(){const row={title:title.value,icon:icon.value,image_url:image_url.value,download_url:download_url.value,rating:Number(rating.value),downloads:downloads.value,description:description.value};const {error}=await sb.from("apps").insert(row);if(error)alert(error.message);else{document.querySelectorAll(".form input,.form textarea").forEach(x=>x.value="");load()}}
+async function delApp(id){if(!confirm("Delete?"))return;const {error}=await sb.from("apps").delete().eq("id",id);if(error)alert(error.message);load()}
+async function addPrompt(){const row={title:ptitle.value,emoji:pemoji.value,image_url:pimage.value};const {error}=await sb.from("prompts").insert(row);if(error)alert(error.message);else{ptitle.value=pemoji.value=pimage.value="";load()}}
+async function delPrompt(id){if(!confirm("Delete?"))return;const {error}=await sb.from("prompts").delete().eq("id",id);if(error)alert(error.message);load()}

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MINHAJ Admin</title><link rel="stylesheet" href="admin.css"></head><body>
+<div class="wrap"><h1>MINHAJ Apps — Admin</h1>
+<div id="login"><h2>Admin Login</h2><input id="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button onclick="login()">Login</button><p id="msg"></p></div>
+<div id="panel" hidden><button class="out" onclick="logout()">Logout</button><h2>Apps</h2>
+<div class="form"><input id="title" placeholder="App name"><input id="icon" placeholder="Emoji e.g. 📦"><input id="image_url" placeholder="Image URL (optional)"><input id="download_url" placeholder="Download/Details URL"><input id="rating" type="number" min="1" max="5" value="5"><input id="downloads" placeholder="Downloads e.g. 6.3K"><textarea id="description" placeholder="Description"></textarea><button onclick="addApp()">Add App</button></div>
+<div id="list"></div>
+<hr><h2>AI Prompts</h2><div class="form"><input id="ptitle" placeholder="Prompt title"><input id="pemoji" placeholder="Emoji"><input id="pimage" placeholder="Image URL (optional)"><button onclick="addPrompt()">Add Prompt</button></div><div id="plist"></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="admin.js"></script></body></html>
